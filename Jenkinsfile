@@ -17,7 +17,7 @@ node('master') {
       def artifactId = "karthik-app"
 
       withCredentials([usernamePassword(credentialsId: 'docker-admin', usernameVariable: 'dockerUser', passwordVariable: 'dockerPassword')]) {
-          sh 'docker login kardocker.azurecr.io -u $dockerUser -p $dockerPassword'
+          sh 'sudo docker login kardocker.azurecr.io -u $dockerUser -p $dockerPassword'
 
           if ((branchName.startsWith("rc/") || branchName.startsWith("hf/")) && branch.size() >= 2) {
               def release = branch[1]
@@ -29,9 +29,9 @@ node('master') {
           } else {
               sh "echo 'Build & push will be executed only for development, rc/*, hf/* branches'"
           }
-          sh "docker build -t kardocker.azurecr.io/${artifactId}:${version} -f Dockerfile ."
-          sh "docker push kardocker.azurecr.io/${artifactId}:${version}"
-          sh 'docker logout'
+          sh "sudo docker build -t kardocker.azurecr.io/${artifactId}:${version} -f Dockerfile ."
+          sh "sudo docker push kardocker.azurecr.io/${artifactId}:${version}"
+          sh "sudo docker logout"
 
       }
     }
