@@ -29,7 +29,8 @@ node('master') {
               } else {
                   sh "echo 'Build & push will be executed only for development, rc/*, hf/* branches'"
               }
-              sh "sudo docker build -t kardocker.azurecr.io/${artifactId}:${version} -f InitialDockerfile ."
+              sh "npm install --silent && npm install @vue/cli@3.7.0 -g"
+              sh "npm run build"
               sh "sudo cp ./../config/vue.config.js ."
               sh "cd dist && find dist -type f "
               sh "cd .."
