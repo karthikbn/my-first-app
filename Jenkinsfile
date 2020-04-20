@@ -37,6 +37,7 @@ node('master') {
               sh "sudo docker build -t kardocker.azurecr.io/${artifactId}:${version} -f ProdDockerfile ."
               sh "sudo docker push kardocker.azurecr.io/${artifactId}:${version}"
               sh "sudo docker logout"
+              sh "sudo rm -rf dist"
 
           }
       }
