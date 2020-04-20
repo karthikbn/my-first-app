@@ -30,7 +30,9 @@ node('master') {
                   sh "echo 'Build & push will be executed only for development, rc/*, hf/* branches'"
               }
               sh "sudo docker build -t kardocker.azurecr.io/${artifactId}:${version} -f InitialDockerfile ."
-              sh "cp ./../config/vue.config.js ."
+              sh "sudo cp ./../config/vue.config.js ."
+              sh "cd dist && find dist -type f "
+              sh "cd .."
               sh "sudo docker build -t kardocker.azurecr.io/${artifactId}:${version} -f ProdDockerfile ."
               sh "sudo docker push kardocker.azurecr.io/${artifactId}:${version}"
               sh "sudo docker logout"
