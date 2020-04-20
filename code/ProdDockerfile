@@ -1,10 +1,17 @@
 # build environment
 FROM node:12.2.0-alpine as build
+
+RUN apk update
+RUN apk add --update nginx
+RUN apk add --update apache2-utils
+
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json /app/package.json
 COPY . /app
-RUN npm config set unsafe-perm true
+RUN npm ci --unsafe-perm exp --no-verify --ignore-scripts
+
+RUN npm rebuild node-sass
 RUN npm run build
 
 # production environment
